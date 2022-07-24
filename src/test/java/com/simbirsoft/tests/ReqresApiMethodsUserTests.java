@@ -4,7 +4,6 @@ import com.simbirsoft.data.RegresCreateApiData;
 import com.simbirsoft.data.RegresDeleteApiData;
 import com.simbirsoft.data.RegresPatchPutApiData;
 import com.simbirsoft.data.RegresSingleUserApiData;
-import com.simbirsoft.models.Create;
 import com.simbirsoft.page.ReqresApiMethods;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,6 @@ public class ReqresApiMethodsUserTests extends TestBase {
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
         assertThat(ReqresApiMethods.createdAt(response.path("createdAt")))
                 .isBetween(data.matcherrr, data.createdAtAfter(1));
-        response.as(Create.class);
     }
 
     @Test
@@ -38,9 +36,6 @@ public class ReqresApiMethodsUserTests extends TestBase {
         Response response1 = postMethod(data1.urlCreate, data1.data);
         RegresPatchPutApiData data = new RegresPatchPutApiData(response1.path("id").toString());
         Response response = putMethod(data.urlCreate, data.data);
-        //я отправляю ему 938 id, а он мне дает ответ по 741, получается у него с опозданием все работает?
-        //Документация не соответвует ответам, что пришли
-        //Поэтому проверки закомментировал, так как они по документации, а ответ из бэка приходит совсемдругой
         assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
 //        assertThat(Integer.valueOf(response.path("name").toString())).isEqualTo(data.name);
 //        assertThat(Integer.valueOf(response.path("job").toString())).isEqualTo(data.job);
