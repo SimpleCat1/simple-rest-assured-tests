@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 public class RegresPatchPutApiData {
@@ -17,6 +18,7 @@ public class RegresPatchPutApiData {
 
     public String createdAtAfter(int minute) {
         SimpleDateFormat createdAtBefore = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        createdAtBefore.setTimeZone(TimeZone.getTimeZone("GMT+0:00"));
         String text = createdAtBefore.format(new Date());
         String regexp = "(\\+)";
         Pattern pattern = Pattern.compile(regexp);
@@ -28,8 +30,6 @@ public class RegresPatchPutApiData {
         String regexp2 = "(\\:)";
         Pattern pattern2 = Pattern.compile(regexp2);
         String[] matcherrr2 = pattern2.split(matcherrr1[1]);
-        matcherrr[0] = matcherrr[0].replaceFirst("T" + matcherrr2[0], "T"
-                + optimiz(Integer.valueOf(matcherrr2[0]) - 4));
         matcherrr[0] = matcherrr[0].replaceFirst(":" + matcherrr2[1], ":"
                 + optimiz(Integer.valueOf(matcherrr2[1]) + minute));
         return matcherrr[0];
