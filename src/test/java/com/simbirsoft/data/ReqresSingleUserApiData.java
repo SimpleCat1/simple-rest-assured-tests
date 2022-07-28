@@ -1,6 +1,6 @@
 package com.simbirsoft.data;
 
-public class RegresSingleUserApiData {
+public class ReqresSingleUserApiData {
     public String urlSingleUser = "/api/users/2";
     public Integer statusCode = 200;
     public String dataId = "2";

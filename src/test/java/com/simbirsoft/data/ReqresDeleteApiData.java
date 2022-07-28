@@ -1,6 +1,6 @@
 package com.simbirsoft.data;
 
-public class RegresDeleteApiData {
+public class ReqresDeleteApiData {
     public String urlCreate;
     public int statusCode = 415;
     public String text = "<!DOCTYPE html>\n" +
@@ -14,7 +14,7 @@ public class RegresDeleteApiData {
             "</body>\n" +
             "</html>\n";
 
-    public RegresDeleteApiData(String id) {
+    public ReqresDeleteApiData(String id) {
         this.urlCreate = String.format("/api/users/%s", id);
     }
 }
