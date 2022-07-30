@@ -1,7 +1,7 @@
 package com.simbirsoft.data;
 
 public class ReqresSingleUserApiData {
-    public String urlSingleUser = "/api/users/2";
+    public String url = "/api/users/2";
     public Integer statusCode = 200;
     public String dataId = "2";
     public String dataEmail = "janet.weaver@reqres.in";

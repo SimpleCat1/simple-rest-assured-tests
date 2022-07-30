@@ -1,7 +1,7 @@
 package com.simbirsoft.data;
 
 public class ReqresDeleteApiData {
-    public String urlCreate;
+    public String url;
     public int statusCode = 415;
     public String text = "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +
@@ -15,6 +15,6 @@ public class ReqresDeleteApiData {
             "</html>\n";
 
     public ReqresDeleteApiData(String id) {
-        this.urlCreate = String.format("/api/users/%s", id);
+        this.url = String.format("/api/users/%s", id);
     }
 }

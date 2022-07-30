@@ -1,6 +1,5 @@
 package com.simbirsoft.tests;
 
-import com.simbirsoft.data.HelperData;
 import com.simbirsoft.data.ReqresCreateApiData;
 import com.simbirsoft.data.ReqresDeleteApiData;
 import com.simbirsoft.data.ReqresPatchPutApiData;
@@ -9,11 +8,7 @@ import com.simbirsoft.page.ReqresApiMethods;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-import static com.simbirsoft.helperApi.HelperApi.deleteMethod;
-import static com.simbirsoft.helperApi.HelperApi.getMethod;
-import static com.simbirsoft.helperApi.HelperApi.patchMethod;
-import static com.simbirsoft.helperApi.HelperApi.postMethod;
-import static com.simbirsoft.helperApi.HelperApi.putMethod;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReqresApiMethodsUserTests extends TestBase {
@@ -21,64 +16,112 @@ public class ReqresApiMethodsUserTests extends TestBase {
     @Test
     void checkCreate() {
         ReqresCreateApiData data = new ReqresCreateApiData();
-        Response response = postMethod(data.urlCreate, data.data);
+        Response response = given()
+                .accept("application/json")
+                .body(data.data)
+                .when()
+                .post(data.url)
+                .then()
+                .extract()
+                .response();
 
         assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(Integer.valueOf(response.path("id").toString())).isGreaterThanOrEqualTo(data.id);
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
-        assertThat(ReqresApiMethods.createdAt(response.path("createdAt")))
-                .isBetween(data.timeTo, HelperData.creatureAtAfter(1));
     }
 
     @Test
     void checkPut() {
         ReqresCreateApiData data1 = new ReqresCreateApiData();
 
-        Response response1 = postMethod(data1.urlCreate, data1.data);
+        Response response1 = given()
+                .accept("application/json")
+                .body(data1.data)
+                .when()
+                .post(data1.url)
+                .then()
+                .extract()
+                .response();
+
         ReqresPatchPutApiData data = new ReqresPatchPutApiData(response1.path("id").toString());
-        Response response = putMethod(data.urlCreate, data.data);
+
+        Response response = given()
+                .accept("application/json")
+                .body(data.data)
+                .when()
+                .post(data.url)
+                .then()
+                .extract()
+                .response();
+
         assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
-//        assertThat(Integer.valueOf(response.path("name").toString())).isEqualTo(data.name);
-//        assertThat(Integer.valueOf(response.path("job").toString())).isEqualTo(data.job);
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
-//        assertThat(ReqresApiMethods.createdAt(response.path("createdAt")))
-//                .isBetween(data.timeTo,data.creatureAtAfter(1));
     }
 
     @Test
     void checkPatch() {
-
         ReqresCreateApiData data1 = new ReqresCreateApiData();
-        Response response1 = postMethod(data1.urlCreate, data1.data);
+
+        Response response1 = given()
+                .accept("application/json")
+                .body(data1.data)
+                .when()
+                .post(data1.url)
+                .then()
+                .extract()
+                .response();
+
         ReqresPatchPutApiData data = new ReqresPatchPutApiData(response1.path("id").toString());
-        Response response = patchMethod(data.urlCreate, data.data);
+
+        Response response = given()
+                .accept("application/json")
+                .body(data.data)
+                .when()
+                .post(data.url)
+                .then()
+                .extract()
+                .response();
+
         assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
-//        assertThat(Integer.valueOf(response.path("name").toString())).isEqualTo(data.name);
-//        assertThat(Integer.valueOf(response.path("job").toString())).isEqualTo(data.job);
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
-//        assertThat(ReqresApiMethods.createdAt(response.path("createdAt")))
-//                .isBetween(data.timeTo,data.creatureAtAfter(1));
     }
 
     @Test
     void checkDelete() {
         ReqresCreateApiData data1 = new ReqresCreateApiData();
-        Response response1 = postMethod(data1.urlCreate, data1.data);
+
+        Response response1 = given()
+                .accept("application/json")
+                .body(data1.data)
+                .when()
+                .post(data1.url)
+                .then()
+                .extract()
+                .response();
+
         ReqresDeleteApiData data = new ReqresDeleteApiData(response1.path("id").toString());
-        Response response = deleteMethod(data.urlCreate);
+
+        Response response = given()
+                .when()
+                .post(data.url)
+                .then()
+                .extract()
+                .response();
+
         assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
-//        assertThat(Integer.valueOf(response.path("name").toString())).isEqualTo(data.name);
-//        assertThat(Integer.valueOf(response.path("job").toString())).isEqualTo(data.job);
         assertThat(response.body().print()).isEqualTo(data.text);
-//        assertThat(ReqresApiMethods.createdAt(response.path("createdAt")))
-//                .isBetween(data.timeTo,data.creatureAtAfter(1));
     }
 
     @Test
     void checkSingleUser() {
         ReqresSingleUserApiData data = new ReqresSingleUserApiData();
+        Response response = given()
+                .when()
+                .get(data.url)
+                .then()
+                .extract()
+                .response();
 
-        Response response = getMethod(data.urlSingleUser);
         assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(response.path("data.id").toString()).isEqualTo(data.dataId);
         assertThat(response.path("data.email").toString()).isEqualTo(data.dataEmail);
