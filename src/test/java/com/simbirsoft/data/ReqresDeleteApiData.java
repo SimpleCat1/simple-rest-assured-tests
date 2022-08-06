@@ -2,7 +2,6 @@ package com.simbirsoft.data;
 
 public class ReqresDeleteApiData {
     public String url;
-    public int statusCode = 415;
     public String text = "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +
             "<head>\n" +

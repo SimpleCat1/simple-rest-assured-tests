@@ -20,12 +20,12 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .accept("application/json")
                 .body(data.data)
                 .when()
-                .post(data.url)
+                .post("/api/users")
                 .then()
+                .statusCode(201)
                 .extract()
                 .response();
 
-        assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(Integer.valueOf(response.path("id").toString())).isGreaterThanOrEqualTo(data.id);
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
     }
@@ -38,7 +38,7 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .accept("application/json")
                 .body(data1.data)
                 .when()
-                .post(data1.url)
+                .post("/api/users")
                 .then()
                 .extract()
                 .response();
@@ -54,7 +54,6 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .extract()
                 .response();
 
-        assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
     }
 
@@ -66,7 +65,7 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .accept("application/json")
                 .body(data1.data)
                 .when()
-                .post(data1.url)
+                .post("/api/users")
                 .then()
                 .extract()
                 .response();
@@ -79,10 +78,10 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .when()
                 .post(data.url)
                 .then()
+                .statusCode(201)
                 .extract()
                 .response();
 
-        assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(ReqresApiMethods.checkCreatedAt(response.path("createdAt").toString())).isTrue();
     }
 
@@ -94,7 +93,7 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .accept("application/json")
                 .body(data1.data)
                 .when()
-                .post(data1.url)
+                .post("/api/users")
                 .then()
                 .extract()
                 .response();
@@ -105,10 +104,10 @@ public class ReqresApiMethodsUserTests extends TestBase {
                 .when()
                 .post(data.url)
                 .then()
+                .statusCode(415)
                 .extract()
                 .response();
 
-        assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(response.body().print()).isEqualTo(data.text);
     }
 
@@ -117,12 +116,12 @@ public class ReqresApiMethodsUserTests extends TestBase {
         ReqresSingleUserApiData data = new ReqresSingleUserApiData();
         Response response = given()
                 .when()
-                .get(data.url)
+                .get("/api/users/2")
                 .then()
+                .statusCode(200)
                 .extract()
                 .response();
 
-        assertThat(response.getStatusCode()).isEqualTo(data.statusCode);
         assertThat(response.path("data.id").toString()).isEqualTo(data.dataId);
         assertThat(response.path("data.email").toString()).isEqualTo(data.dataEmail);
         assertThat(response.path("data.first_name").toString()).isEqualTo(data.dataFirst_name);

@@ -5,7 +5,6 @@ import com.github.javafaker.Faker;
 public class ReqresPatchPutApiData {
     Faker faker = new Faker();
     public String url;
-    public int statusCode = 201;
     public String name = String.valueOf(faker.name());
     public String job = String.valueOf(faker.job());
     public String data = String.format("{\"name\":%s,\"job\":%s}", name, job);
